@@ -23,13 +23,12 @@
 
   <script type="module">
     import { supabase } from './config.js';
-
-    const MY_UUID = "c5b221ff-cd34-4e83-8a47-3c6a22bbadab"; // your UUID
+    const MY_UUID = "c5b221ff-cd34-4e83-8a47-3c6a22bbadab";
     const columns = ['todo', 'doing', 'done'];
 
-    // redirect if not logged in
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user || user.id !== MY_UUID) window.location.href = "index.html";
+    // Wait for session
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session || session.user.id !== MY_UUID) window.location.href = "index.html";
 
     async function loadTasks() {
       const { data: tasks, error } = await supabase
