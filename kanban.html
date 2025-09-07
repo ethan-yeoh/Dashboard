@@ -1,15 +1,13 @@
-  <script type="module">
-  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+<script type="module">
+  import { supabase } from "./config.js";
 
-  const supabaseUrl = "https://fcascylnltjslnwsxtpv.supabase.co";
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZjYXNjeWxubHRqc2xud3N4dHB2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcyNTM4MTMsImV4cCI6MjA3MjgyOTgxM30.3HrL7XCkhlef8Y7724g4dOCBklLPzOPsH5Gkw4ghKNs";
-  const supabase = createClient(supabaseUrl, supabaseKey);
-
-  // Redirect to login if not authenticated
+  // Redirect if not logged in
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
     window.location.href = "index.html";
   }
 
-  // your Kanban board code goes here...
+  console.log("Logged in as:", user.email);
+
+  // TODO: your Kanban board code here
 </script>
