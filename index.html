@@ -19,31 +19,27 @@
     </form>
 
     <script type="module">
-      import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
-
-      const supabaseUrl = "YOUR_SUPABASE_URL";
-      const supabaseKey = "YOUR_SUPABASE_ANON_KEY";
-      const supabase = createClient(supabaseUrl, supabaseKey);
+      import { supabase } from "./config.js";
 
       // login
-      document.getElementById('login-form').addEventListener('submit', async (e) => {
+      document.getElementById("login-form").addEventListener("submit", async (e) => {
         e.preventDefault();
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
 
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) {
           alert(error.message);
         } else {
-          window.location.href = "kaban.html"; // redirect after login
+          window.location.href = "kaban.html";
         }
       });
 
       // signup
-      document.getElementById('signup-form').addEventListener('submit', async (e) => {
+      document.getElementById("signup-form").addEventListener("submit", async (e) => {
         e.preventDefault();
-        const email = document.getElementById('signup-email').value;
-        const password = document.getElementById('signup-password').value;
+        const email = document.getElementById("signup-email").value;
+        const password = document.getElementById("signup-password").value;
 
         const { data, error } = await supabase.auth.signUp({ email, password });
         if (error) {
