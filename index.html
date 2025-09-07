@@ -1,53 +1,55 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Login - Dashboard</title>
-  </head>
-  <body>
-    <h1>Login</h1>
-    <form id="login-form">
-      <input type="email" id="email" placeholder="Email" required>
-      <input type="password" id="password" placeholder="Password" required>
-      <button type="submit">Login</button>
-    </form>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Dashboard</title>
+</head>
+<body>
+  <h1>Login</h1>
+  <form id="login-form">
+    <input type="email" id="email" placeholder="Email" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button type="submit">Login</button>
+  </form>
 
-    <h2>Or Sign Up</h2>
-    <form id="signup-form">
-      <input type="email" id="signup-email" placeholder="Email" required>
-      <input type="password" id="signup-password" placeholder="Password" required>
-      <button type="submit">Sign Up</button>
-    </form>
+  <h2>Or Sign Up</h2>
+  <form id="signup-form">
+    <input type="email" id="signup-email" placeholder="Email" required>
+    <input type="password" id="signup-password" placeholder="Password" required>
+    <button type="submit">Sign Up</button>
+  </form>
 
-    <script type="module">
-      import { supabase } from "./config.js";
+  <script type="module">
+    import { supabase } from './config.js';
+    const MY_UUID = "c5b221ff-cd34-4e83-8a47-3c6a22bbadab";
 
-      // login
-      document.getElementById("login-form").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
+    // Check if user is already logged in
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session && session.user.id === MY_UUID) {
+      window.location.href = "kanban.html";
+    }
 
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) {
-          alert(error.message);
-        } else {
-          window.location.href = "kanban.html";
-        }
-      });
+    // login
+    document.getElementById("login-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
-      // signup
-      document.getElementById("signup-form").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const email = document.getElementById("signup-email").value;
-        const password = document.getElementById("signup-password").value;
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) alert(error.message);
+      else setTimeout(() => window.location.href = "kanban.html", 200);
+    });
 
-        const { data, error } = await supabase.auth.signUp({ email, password });
-        if (error) {
-          alert(error.message);
-        } else {
-          alert("Check your email for confirmation!");
-        }
-      });
-    </script>
-  </body>
+    // signup
+    document.getElementById("signup-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("signup-email").value;
+      const password = document.getElementById("signup-password").value;
+
+      const { data, error } = await supabase.auth.signUp({ email, password });
+      if (error) alert(error.message);
+      else alert("Check your email for confirmation!");
+    });
+  </script>
+</body>
 </html>
